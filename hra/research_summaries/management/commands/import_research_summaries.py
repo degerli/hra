@@ -38,7 +38,10 @@ class Command(BaseCommand):
             if end_date == 'today':
                 end_date = date.today()
             else:
-                end_date = parse_date(end_date).date()
+                try:
+                    end_date = parse_date(end_date).date()
+                except ValueError as e:
+                    raise CommandError("Invalid --date-to: {}".format(e))
 
         if not (start_date and end_date):
             # If there is no dates in arguments,
